@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 export default function Pricing() {
   const [isYearly, setIsYearly] = useState(false);
 
+  // Preispläne (Monatlich)
   const monthly = [
     {
       title: "Starter",
@@ -25,9 +26,10 @@ export default function Pricing() {
 
   return (
     <section className="relative py-20 text-white">
-      {/* Toggle zwischen Monthly / Yearly */}
+      {/* Umschalter Monthly / Yearly */}
       <PricingSwitch isYearly={isYearly} setIsYearly={setIsYearly} />
 
+      {/* Pricing Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
         {monthly.map((plan, index) => (
           <motion.div
