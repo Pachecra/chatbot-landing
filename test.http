@@ -1,0 +1,12 @@
+POST http://localhost:3000/api/chat
+Content-Type: application/json
+
+{
+  "customerId": "test123",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Hallo"
+    }
+  ]
+}
