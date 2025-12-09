@@ -1,87 +1,52 @@
 "use client";
 
-import { useState } from "react";
+import Navbar from "@/components/layout/Navbar";
+import Hero from "@/components/hero/Hero";
+import ProblemReveal from "@/components/problem-reveal/ProblemReveal";
+import Features from "@/components/features/Features";
+import Mechanism from "@/components/mechanism/Mechanism";
+import Offer from "@/components/offer/Offer";
+import FAQ from "@/components/faq/FAQ";
+import CTABar from "@/components/cta/CTABar";
+import Footer from "@/components/layout/Footer";
+import ChatbotWidget from "@/components/ChatbotWidget";
 
-export default function StartPage() {
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setLoading(true);
-
-    const formData = new FormData(e.currentTarget);
-
-    const res = await fetch("/api/new-user", {
-      method: "POST",
-      body: JSON.stringify({
-        name: formData.get("name"),
-        email: formData.get("email"),
-        website: formData.get("website"),
-        message: formData.get("message"),
-      }),
-    });
-
-    setLoading(false);
-
-    if (res.ok) {
-      setSuccess(true);
-    } else {
-      alert("Fehler beim Absenden.");
-    }
-  }
-
+export default function Home() {
   return (
-    <div className="min-h-screen bg-black text-white flex items-center justify-center p-10">
-      {!success ? (
-        <form
-          onSubmit={handleSubmit}
-          className="w-full max-w-lg bg-gray-900 p-8 rounded-xl shadow-xl space-y-4"
-        >
-          <h1 className="text-3xl font-bold mb-4">Starte jetzt kostenlos</h1>
+    <>
+      <main className="relative bg-[#05070d] min-h-screen overflow-hidden">
+        
+        {/* NAVBAR */}
+        <Navbar />
 
-          <input
-            name="name"
-            required
-            placeholder="Dein Name"
-            className="w-full p-3 rounded bg-gray-800 border border-gray-700"
-          />
+        {/* HERO */}
+        <Hero />
 
-          <input
-            name="email"
-            type="email"
-            required
-            placeholder="E-Mail"
-            className="w-full p-3 rounded bg-gray-800 border border-gray-700"
-          />
+        {/* PROBLEM REVEAL */}
+        <ProblemReveal />
 
-          <input
-            name="website"
-            placeholder="Deine Website (optional)"
-            className="w-full p-3 rounded bg-gray-800 border border-gray-700"
-          />
+        {/* HIGH-TICKET FEATURES */}
+        <Features />
 
-          <textarea
-            name="message"
-            placeholder="Wie soll dein Chatbot helfen?"
-            className="w-full p-3 rounded bg-gray-800 border border-gray-700"
-          />
+        {/* MECHANISM */}
+        <Mechanism />
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-blue-600 hover:bg-blue-700 p-3 rounded font-bold"
-          >
-            {loading ? "Wird gesendet..." : "Absenden"}
-          </button>
-        </form>
-      ) : (
-        <h2 className="text-2xl text-center">
-          🎉 Vielen Dank!  
-          <br />
-          Wir melden uns in Kürze bei dir.
-        </h2>
-      )}
-    </div>
+        {/* OFFER */}
+        <Offer />
+
+        {/* FAQ */}
+        <FAQ />
+
+        {/* CTA */}
+        <CTABar />
+
+      </main>
+
+      {/* FOOTER */}
+      <Footer />
+
+      {/* CHATBOT */}
+      <ChatbotWidget />
+    </>
   );
 }
