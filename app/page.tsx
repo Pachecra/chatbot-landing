@@ -11,13 +11,11 @@ import CTABar from "@/components/cta/CTABar";
 import Footer from "@/components/layout/Footer";
 import ChatbotWidget from "@/components/ChatbotWidget";
 
+
 export default function Home() {
   return (
     <>
       <main className="relative bg-[#05070d] min-h-screen overflow-hidden">
-        
-        {/* NAVBAR */}
-        <Navbar />
 
         {/* HERO */}
         <Hero />
@@ -31,15 +29,14 @@ export default function Home() {
         {/* MECHANISM */}
         <Mechanism />
 
-        {/* OFFER */}
+        {/* OFFER – High-Ticket Angebot */}
         <Offer />
 
         {/* FAQ */}
         <FAQ />
 
-        {/* CTA */}
+        {/* CTA – Beratung buchen */}
         <CTABar />
-
       </main>
 
       {/* FOOTER */}
