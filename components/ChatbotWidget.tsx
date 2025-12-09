@@ -1,117 +1,94 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 export default function ChatbotWidget() {
   const [open, setOpen] = useState(false);
+  const [messages, setMessages] = useState([
+    { from: "bot", text: "Hi! Ich bin dein AI-Bot 🤖 Wie kann ich dir helfen?" }
+  ]);
+  const [input, setInput] = useState("");
+
+  const chatEndRef = useRef<HTMLDivElement | null>(null);
+
+  // Scroll immer nach unten
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  // Nachricht senden
+  function sendMessage() {
+    if (input.trim() === "") return;
+
+    setMessages(prev => [...prev, { from: "user", text: input }]);
+    setInput("");
+
+    // Bot-Antwort (vorerst Dummy)
+    setTimeout(() => {
+      setMessages(prev => [
+        ...prev,
+        { from: "bot", text: "Danke für deine Nachricht! 🤖 Bald antworte ich echt." }
+      ]);
+    }, 600);
+  }
+
+  // ENTER-Taste abfangen
+  function handleKeyPress(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      sendMessage();
+    }
+  }
 
   return (
     <>
       {/* Floating Button */}
       <button
         onClick={() => setOpen(!open)}
-        style={{
-          position: "fixed",
-          bottom: "24px",
-          right: "24px",
-          width: "56px",
-          height: "56px",
-          borderRadius: "50%",
-          backgroundColor: "#2563EB",  // blau
-          color: "white",
-          fontSize: "24px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-          zIndex: 9999,
-        }}
+        className="fixed bottom-6 right-6 bg-blue-600 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-3xl hover:bg-blue-700 transition z-50"
       >
         🤖
       </button>
 
+      {/* Chat Window */}
       {open && (
-        <div
-          style={{
-            position: "fixed",
-            bottom: "96px",  // über dem Button
-            right: "24px",
-            width: "320px",
-            height: "480px",
-            backgroundColor: "white",
-            borderRadius: "16px",
-            boxShadow: "0 8px 24px rgba(0,0,0,0.2)",
-            zIndex: 9999,
-            display: "flex",
-            flexDirection: "column",
-            overflow: "hidden",
-          }}
-        >
+        <div className="fixed bottom-24 right-6 w-80 h-96 bg-white shadow-xl rounded-xl border border-gray-200 flex flex-col overflow-hidden z-50">
+          
           {/* Header */}
-          <div
-            style={{
-              backgroundColor: "#000",
-              color: "white",
-              padding: "16px",
-              fontWeight: 600,
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
+          <div className="bg-black text-white p-4 font-semibold flex justify-between items-center">
             <span>AI Chatbot 🤖</span>
-            <button
-              onClick={() => setOpen(false)}
-              style={{ fontSize: "18px", color: "white" }}
-            >
-              ×
-            </button>
+            <button onClick={() => setOpen(false)} className="text-lg">×</button>
           </div>
 
           {/* Chat Body */}
-          <div
-            style={{
-              flex: 1,
-              padding: "12px",
-              overflowY: "auto",
-              backgroundColor: "#f3f4f6",
-            }}
-          >
-            <div
-              style={{
-                backgroundColor: "white",
-                padding: "8px 12px",
-                borderRadius: "12px",
-                boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-                display: "inline-block",
-                maxWidth: "90%",
-              }}
-            >
-              Hi! Ich bin dein AI-Bot 🤖<br />
-              Wie kann ich dir helfen?
-            </div>
+          <div className="flex-1 p-3 overflow-y-auto bg-gray-50 text-sm space-y-2">
+            {messages.map((msg, i) => (
+              <div
+                key={i}
+                className={`p-2 rounded-lg shadow max-w-[80%] ${
+                  msg.from === "bot"
+                    ? "bg-white"
+                    : "bg-blue-600 text-white ml-auto"
+                }`}
+              >
+                {msg.text}
+              </div>
+            ))}
+            <div ref={chatEndRef} />
           </div>
 
-          {/* Input Footer */}
-          <div style={{ padding: "12px", borderTop: "1px solid #e5e7eb", display: "flex", gap: "8px" }}>
+          {/* Input Area */}
+          <div className="p-3 border-t bg-white flex gap-2">
             <input
               type="text"
               placeholder="Nachricht eingeben…"
-              style={{
-                flex: 1,
-                border: "1px solid #d1d5db",
-                borderRadius: "8px",
-                padding: "8px",
-                fontSize: "14px",
-              }}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={handleKeyPress}
+              className="flex-1 border rounded-lg px-3 py-2 text-sm"
             />
             <button
-              style={{
-                backgroundColor: "#2563EB",
-                color: "white",
-                padding: "8px 12px",
-                borderRadius: "8px",
-                fontSize: "14px",
-              }}
+              onClick={sendMessage}
+              className="bg-blue-600 text-white px-3 rounded-lg"
             >
               ➤
             </button>
