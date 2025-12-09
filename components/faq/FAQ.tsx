@@ -1,78 +1,51 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 export default function FAQ() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-
-  const faqList = [
+  const faqs = [
     {
-      question: "Wie lange dauert die Einrichtung?",
-      answer: "Die Integration dauert unter 60 Sekunden. Einfach das Script einbetten – fertig.",
+      q: "Wie läuft die Zusammenarbeit ab?",
+      a: "Wir analysieren Ihre Prozesse, erstellen ein individuelles Chatbot-Konzept, entwickeln, integrieren und optimieren Ihr System — alles Done-For-You.",
     },
     {
-      question: "Muss ich programmieren können?",
-      answer: "Nein. Dein Chatbot funktioniert ohne technische Kenntnisse. Alles ist Plug & Play.",
+      q: "Für welche Unternehmen eignet sich ein KI-Chatbot?",
+      a: "Für jede Branche, die Kundenanfragen erhält, Leads generiert oder interne Abläufe automatisieren möchte — egal ob Dienstleistung, Coaching, lokales Business oder E-Commerce.",
     },
     {
-      question: "Kann ich mehrere Chatbots erstellen?",
-      answer: "Ja. Je nach Plan kannst du mehrere Bots für verschiedene Websites erzeugen.",
+      q: "Wie schnell sehen wir Ergebnisse?",
+      a: "In der Regel innerhalb weniger Tage. Viele Prozesse können sofort automatisiert werden, wodurch Sie schneller Anfragen beantworten und mehr Leads erhalten.",
     },
     {
-      question: "Wie funktioniert die Abrechnung?",
-      answer: "Über Stripe. Deine Kunden bezahlen monatlich oder jährlich automatisch.",
+      q: "Wie viel Zeit muss ich investieren?",
+      a: "Sehr wenig. Wir übernehmen alles für Sie. Sie geben Input zu Ihren Prozessen — den Rest erledigen wir.",
+    },
+    {
+      q: "Ist der Chatbot DSGVO-konform?",
+      a: "Ja. Alle Daten werden sicher übertragen. Wir richten Ihren Chatbot vollständig DSGVO-konform ein.",
     },
   ];
 
   return (
-    <section id="faq" className="py-32 bg-[#05070d] text-white relative z-20">
-      <div className="max-w-4xl mx-auto px-6">
-        
+    <section className="py-24 bg-[#05070d] text-white px-6">
+      <div className="max-w-4xl mx-auto">
         <h2 className="text-4xl md:text-5xl font-bold text-center">Häufige Fragen</h2>
 
-        <p className="text-white/60 text-center mt-4 mb-12">
-          Alles, was du über dein Chatbot-System wissen musst.
-        </p>
-
-        <div className="space-y-4">
-          {faqList.map((item, i) => (
-            <div key={i} className="border border-white/10 rounded-xl bg-[#0b0f18] overflow-hidden">
-              
-              {/* FAQ Header */}
-              <button
-                onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                className="w-full text-left px-6 py-4 flex justify-between items-center"
-              >
-                <span className="text-lg font-semibold">{item.question}</span>
-
-                <motion.span
-                  animate={{ rotate: openIndex === i ? 180 : 0 }}
-                  transition={{ duration: 0.25 }}
-                  className="text-white/60 text-2xl select-none"
-                >
-                  ▼
-                </motion.span>
-              </button>
-
-              {/* FAQ Content */}
-              <AnimatePresence initial={false}>
-                {openIndex === i && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="px-6 pb-4 text-white/70"
-                  >
-                    {item.answer}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
+        <div className="mt-12 space-y-8">
+          {faqs.map((faq, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="bg-[#0b0e17] p-6 rounded-xl border border-white/10"
+            >
+              <h3 className="text-xl font-semibold">{faq.q}</h3>
+              <p className="text-gray-400 mt-3">{faq.a}</p>
+            </motion.div>
           ))}
         </div>
-
       </div>
     </section>
   );

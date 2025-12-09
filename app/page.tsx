@@ -2,46 +2,49 @@
 
 import Navbar from "@/components/layout/Navbar";
 import Hero from "@/components/hero/Hero";
+import ProblemReveal from "@/components/problem-reveal/ProblemReveal";
 import Features from "@/components/features/Features";
-import Pricing from "@/components/pricing/Pricing";
-import Testimonials from "@/components/testimonials/Testimonials";
+import Mechanism from "@/components/mechanism/Mechanism";
+import Offer from "@/components/offer/Offer";
 import FAQ from "@/components/faq/FAQ";
 import CTABar from "@/components/cta/CTABar";
 import Footer from "@/components/layout/Footer";
-
-// ✅ KORREKTER Chatbot-Import (Groß-/Kleinschreibung!)
 import ChatbotWidget from "@/components/ChatbotWidget";
 
 export default function Home() {
   return (
     <>
       <main className="relative bg-[#05070d] min-h-screen overflow-hidden">
+        
         {/* NAVBAR */}
         <Navbar />
 
         {/* HERO */}
         <Hero />
 
-        {/* FEATURES */}
+        {/* PROBLEM REVEAL */}
+        <ProblemReveal />
+
+        {/* HIGH-TICKET FEATURES (Ergebnisse statt SaaS-Features) */}
         <Features />
 
-        {/* PRICING */}
-        <Pricing />
+        {/* MECHANISM SECTION */}
+        <Mechanism />
 
-        {/* TESTIMONIALS */}
-        <Testimonials />
+        {/* HIGH-TICKET OFFER SECTION */}
+        <Offer />
 
         {/* FAQ */}
         <FAQ />
 
-        {/* CTA */}
+        {/* CTA - Beratung buchen */}
         <CTABar />
       </main>
 
       {/* FOOTER */}
       <Footer />
 
-      {/* 🔥 Chatbot – wird jetzt korrekt geladen */}
+      {/* CHATBOT */}
       <ChatbotWidget />
     </>
   );

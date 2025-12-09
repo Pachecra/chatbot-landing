@@ -1,29 +1,29 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { FaRobot, FaBolt, FaComments, FaLock } from "react-icons/fa";
+import { FaRobot, FaChartLine, FaClock, FaCalendarCheck } from "react-icons/fa";
 
 export default function Features() {
   const featureList = [
     {
+      icon: <FaChartLine size={30} />,
+      title: "Mehr qualifizierte Leads",
+      text: "Ihr Chatbot filtert automatisch Interessenten vor und sammelt die wichtigsten Informationen – ohne zusätzliche Mitarbeiter.",
+    },
+    {
+      icon: <FaClock size={30} />,
+      title: "Antwortzeiten von Sekunden",
+      text: "Begeistern Sie Kunden durch sofortige Antworten. Schnellere Reaktion = höhere Abschlussquote.",
+    },
+    {
+      icon: <FaCalendarCheck size={30} />,
+      title: "Automatisierte Terminbuchung",
+      text: "Ihr Chatbot vereinbart Termine, sammelt Daten und sorgt dafür, dass keine Anfrage mehr verloren geht.",
+    },
+    {
       icon: <FaRobot size={30} />,
-      title: "Automatisierte Antworten",
-      text: "Beantworte Kundenanfragen sofort – 24/7, ohne Wartezeit.",
-    },
-    {
-      icon: <FaBolt size={30} />,
-      title: "Schnelle Integration",
-      text: "Füge deinen Chatbot mit nur einem Script-Snippet zu jeder Website hinzu.",
-    },
-    {
-      icon: <FaComments size={30} />,
-      title: "Verkaufsstarker Chat",
-      text: "Lenke Kunden gezielt zu Angeboten, Formularen oder Terminen.",
-    },
-    {
-      icon: <FaLock size={30} />,
-      title: "Sicher & DSGVO-konform",
-      text: "Alle Daten werden verschlüsselt übertragen – maximale Sicherheit.",
+      title: "24/7 Kunden- & Sales-Support",
+      text: "Ihr Chatbot arbeitet rund um die Uhr, beantwortet Fragen, qualifiziert Leads und unterstützt Ihr Team aktiv.",
     },
   ];
 
@@ -33,6 +33,7 @@ export default function Features() {
       className="py-32 bg-[#05070d] text-white relative z-20"
     >
       <div className="max-w-6xl mx-auto px-6 text-center">
+        
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -40,7 +41,7 @@ export default function Features() {
           transition={{ duration: 0.8 }}
           className="text-4xl md:text-5xl font-bold"
         >
-          Leistungsstarke Features
+          Die Ergebnisse, die Ihr Business wirklich voranbringen
         </motion.h2>
 
         <motion.p
@@ -50,7 +51,8 @@ export default function Features() {
           transition={{ duration: 1 }}
           className="text-white/60 mt-4 max-w-2xl mx-auto"
         >
-          Alles, was du brauchst, um Kundenservice und Sales zu automatisieren.
+          Keine technischen Features – echte geschäftliche Resultate,
+          die sich messbar auf Umsatz, Zeit und Wachstum auswirken.
         </motion.p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mt-16">
