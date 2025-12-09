@@ -9,7 +9,7 @@ import FAQ from "@/components/faq/FAQ";
 import CTABar from "@/components/cta/CTABar";
 import Footer from "@/components/layout/Footer";
 
-// 🔥 Chatbot-Widget Import – FEHLTE bei dir!
+// ✅ KORREKTER Chatbot-Import (Groß-/Kleinschreibung!)
 import ChatbotWidget from "@/components/ChatbotWidget";
 
 export default function Home() {
@@ -41,7 +41,7 @@ export default function Home() {
       {/* FOOTER */}
       <Footer />
 
-      {/* 🔥 CHATBOT – wird jetzt angezeigt */}
+      {/* 🔥 Chatbot – wird jetzt korrekt geladen */}
       <ChatbotWidget />
     </>
   );
