@@ -14,16 +14,34 @@ export default function Home() {
   return (
     <>
       <main className="relative bg-[#05070d] min-h-screen overflow-hidden">
+
+        {/* HERO */}
         <Hero />
+
+        {/* PROBLEM REVEAL */}
         <ProblemReveal />
+
+        {/* FEATURES */}
         <Features />
+
+        {/* MECHANISM */}
         <Mechanism />
+
+        {/* OFFER */}
         <Offer />
+
+        {/* FAQ */}
         <FAQ />
+
+        {/* CTA */}
         <CTABar />
+
       </main>
 
+      {/* FOOTER */}
       <Footer />
+
+      {/* CHATBOT */}
       <ChatbotWidget />
     </>
   );
