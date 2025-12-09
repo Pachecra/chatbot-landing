@@ -25,20 +25,21 @@ export default function Home() {
         {/* PROBLEM REVEAL */}
         <ProblemReveal />
 
-        {/* HIGH-TICKET FEATURES (Ergebnisse statt SaaS-Features) */}
+        {/* FEATURES */}
         <Features />
 
-        {/* MECHANISM SECTION */}
+        {/* MECHANISM */}
         <Mechanism />
 
-        {/* HIGH-TICKET OFFER SECTION */}
+        {/* OFFER */}
         <Offer />
 
         {/* FAQ */}
         <FAQ />
 
-        {/* CTA - Beratung buchen */}
+        {/* CTA */}
         <CTABar />
+
       </main>
 
       {/* FOOTER */}
