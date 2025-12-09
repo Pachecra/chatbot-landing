@@ -3,39 +3,38 @@
 import { motion } from "framer-motion";
 
 export default function Offer() {
-  const items = [
-    "Individuelle Analyse Ihrer Prozesse & Engpässe",
-    "Konzeption eines maßgeschneiderten KI-Chatbots",
-    "Komplette Entwicklung & technische Umsetzung",
-    "Einbindung in Ihre Website oder Systeme",
-    "Automatisierte Terminbuchung & Lead-Qualifizierung",
-    "Optional: laufende Optimierung & Betreuung"
-  ];
-
   return (
-    <section className="py-24 bg-[#05070d] text-center px-6">
-      <motion.h2
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        className="text-4xl md:text-5xl font-bold text-white max-w-3xl mx-auto"
-      >
-        Was wir für Sie übernehmen
-      </motion.h2>
+    <section className="py-24 bg-[#05070d] text-white">
+      <div className="max-w-4xl mx-auto px-6 text-center">
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          className="text-3xl md:text-4xl font-bold"
+        >
+          Mein Angebot für Ihr Unternehmen
+        </motion.h2>
 
-      <p className="text-gray-300 text-lg max-w-2xl mx-auto mt-6">
-        Ein komplett Done-For-You Service, der spürbare Ergebnisse liefert.
-      </p>
+        <p className="mt-6 text-white/70 max-w-2xl mx-auto">
+          Ich erstelle Ihnen einen individuellen Unternehmens-Chatbot —
+          komplett fertig eingerichtet und auf Ihr Geschäft zugeschnitten.
+        </p>
 
-      <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mt-16 text-left">
-        {items.map((item, i) => (
-          <div
-            key={i}
-            className="bg-[#0b0e17] p-6 rounded-xl border border-white/10 text-gray-300"
-          >
-            ✓ {item}
-          </div>
-        ))}
+        <div className="mt-10 bg-[#0a0f1c]/50 border border-white/10 p-8 rounded-xl">
+          <ul className="text-left space-y-4 text-white/80">
+            <li>✔ Erstellung Ihres Chatbots</li>
+            <li>✔ Einrichtung auf Website oder WhatsApp</li>
+            <li>✔ Anpassung an Ihr Geschäftsmodell</li>
+            <li>✔ Texte & Kundenführung von mir geschrieben</li>
+            <li>✔ Support & Optimierung</li>
+          </ul>
+        </div>
+
+        <a
+          href="#cta"
+          className="inline-block mt-10 px-10 py-4 bg-blue-600 hover:bg-blue-700 rounded-xl text-lg font-semibold"
+        >
+          Kostenlose Beratung buchen
+        </a>
       </div>
     </section>
   );

@@ -1,23 +1,39 @@
+"use client";
+
+import { motion } from "framer-motion";
+
 export default function Hero() {
   return (
-    <section className="relative flex flex-col items-center text-center pt-32 pb-24 px-4">
-      <h1 className="text-4xl md:text-6xl font-bold text-white leading-tight max-w-3xl">
-        Individuelle KI-Chatbots, die Anfragen automatisieren,
-        Leads qualifizieren und Umsatz steigern.
-      </h1>
+    <section className="pt-32 pb-24 text-center text-white bg-[#05070d]">
+      <motion.h1
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="text-4xl md:text-6xl font-bold leading-tight"
+      >
+        Ich erstelle Ihnen einen KI-Chatbot,<br />
+        der Ihnen Zeit spart & neue Kunden bringt.
+      </motion.h1>
 
-      <p className="text-gray-300 text-lg md:text-xl mt-6 max-w-2xl">
-        Wir entwickeln maßgeschneiderte KI-Chatbots für Unternehmen jeder Größe —
-        damit Sie mehr Kunden gewinnen, schneller antworten und Prozesse
-        automatisieren können. Komplett Done-For-You.
-      </p>
+      <motion.p
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        className="mt-6 text-white/70 text-lg max-w-2xl mx-auto"
+      >
+        Automatische Antworten, Terminbuchungen und Kundenanfragen —
+        ohne Extra-Arbeit für Sie und rund um die Uhr.
+      </motion.p>
 
-      <a
+      <motion.a
         href="#cta"
-        className="mt-10 bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+        className="inline-block mt-10 px-8 py-4 text-lg font-semibold bg-blue-600 hover:bg-blue-700 rounded-xl"
       >
         Kostenloses Beratungsgespräch buchen
-      </a>
+      </motion.a>
     </section>
   );
 }

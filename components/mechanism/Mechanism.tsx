@@ -3,46 +3,37 @@
 import { motion } from "framer-motion";
 
 export default function Mechanism() {
+  const steps = [
+    "Kurzes Beratungsgespräch — wir prüfen, ob ein Chatbot sinnvoll ist",
+    "Ich erstelle Ihren Chatbot komplett individuell",
+    "Ich richte alles auf Ihrer Website ein — Sie müssen nichts tun",
+    "Sie erhalten mehr Anfragen & sparen täglich Zeit",
+  ];
+
   return (
-    <section className="py-24 bg-[#0b0e17] text-center px-6">
-      <motion.h2
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        className="text-4xl md:text-5xl font-bold text-white max-w-3xl mx-auto"
-      >
-        Warum unser KI-System in jeder Branche funktioniert
-      </motion.h2>
+    <section className="py-24 bg-[#05070d] text-white">
+      <div className="max-w-5xl mx-auto px-6 text-center">
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-3xl md:text-4xl font-bold"
+        >
+          So läuft die Zusammenarbeit ab
+        </motion.h2>
 
-      <p className="text-gray-300 text-lg max-w-2xl mx-auto mt-6">
-        Unsere Chatbots basieren auf einem klaren, bewährten Mechanismus,
-        der sich unabhängig von Ihrer Branche oder Unternehmensgröße
-        sofort auf Ihre Prozesse übertragen lässt.
-      </p>
-
-      <div className="grid md:grid-cols-3 gap-10 max-w-5xl mx-auto mt-16">
-        <div className="bg-[#121620] p-8 rounded-xl border border-white/10">
-          <h3 className="text-white text-xl font-semibold">01 — Analyse</h3>
-          <p className="text-gray-400 mt-3">
-            Wir identifizieren die wichtigsten Engpässe in Ihrem Sales-, Support-
-            oder Lead-Prozess.
-          </p>
-        </div>
-
-        <div className="bg-[#121620] p-8 rounded-xl border border-white/10">
-          <h3 className="text-white text-xl font-semibold">02 — Entwicklung</h3>
-          <p className="text-gray-400 mt-3">
-            Wir entwickeln einen maßgeschneiderten KI-Chatbot, der genau
-            auf Ihre Abläufe abgestimmt ist.
-          </p>
-        </div>
-
-        <div className="bg-[#121620] p-8 rounded-xl border border-white/10">
-          <h3 className="text-white text-xl font-semibold">03 — Automatisierung</h3>
-          <p className="text-gray-400 mt-3">
-            Ihr Chatbot übernimmt wiederkehrende Aufgaben vollständig —
-            schneller, günstiger und zuverlässiger als manuelle Arbeit.
-          </p>
+        <div className="mt-16 grid gap-8">
+          {steps.map((s, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 + i * 0.1 }}
+              className="p-6 bg-[#0a0f1c]/50 rounded-xl border border-white/10 text-left"
+            >
+              <p className="text-lg text-white/80">{s}</p>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
