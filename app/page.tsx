@@ -9,6 +9,9 @@ import FAQ from "@/components/faq/FAQ";
 import CTABar from "@/components/cta/CTABar";
 import Footer from "@/components/layout/Footer";
 
+// 🔥 Chatbot-Widget Import – FEHLTE bei dir!
+import ChatbotWidget from "@/components/ChatbotWidget";
+
 export default function Home() {
   return (
     <>
@@ -37,6 +40,9 @@ export default function Home() {
 
       {/* FOOTER */}
       <Footer />
+
+      {/* 🔥 CHATBOT – wird jetzt angezeigt */}
+      <ChatbotWidget />
     </>
   );
 }
