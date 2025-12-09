@@ -25,7 +25,7 @@ export default function Home() {
         {/* PROBLEM REVEAL */}
         <ProblemReveal />
 
-        {/* HIGH-TICKET FEATURES */}
+        {/* FEATURES */}
         <Features />
 
         {/* MECHANISM */}
