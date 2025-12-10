@@ -12,10 +12,7 @@ export default function Home() {
     <>
       <Hero />
       <ProblemReveal />
-
-      {/* High-End Demo Section */}
       <DemoSection />
-
       <Features />
       <Mechanism />
       <Offer />
