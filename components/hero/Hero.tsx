@@ -2,28 +2,48 @@
 
 import { motion } from "framer-motion";
 
-export default function ProblemReveal() {
+export default function Hero() {
   return (
-    <section className="py-24 text-white bg-[#05070d]">
-      <div className="max-w-5xl mx-auto px-6 text-center">
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-3xl md:text-4xl font-bold"
+    <section className="pt-28 pb-32 text-center bg-[#05070d]">
+      <motion.h1
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="text-4xl md:text-6xl font-bold leading-tight text-white"
+      >
+        Mehr Kunden. Weniger Arbeit. <br /> Mit Ihrem KI-Chatbot.
+      </motion.h1>
+
+      <motion.p
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2, duration: 0.5 }}
+        className="mt-6 text-white/70 text-lg max-w-2xl mx-auto"
+      >
+        Ich erstelle Ihnen einen individuellen KI-Chatbot, der Anfragen beantwortet,
+        Termine vereinbart und neue Kunden bringt – automatisch, rund um die Uhr.
+      </motion.p>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.35, duration: 0.5 }}
+        className="mt-10 flex flex-col md:flex-row items-center justify-center gap-4"
+      >
+        <a
+          href="mailto:service.pachecoai@gmail.com?subject=Anfrage%20KI-Chatbot"
+          className="px-8 py-4 bg-blue-600 hover:bg-blue-700 rounded-xl text-lg font-semibold text-white transition"
         >
-          Viele Unternehmen verlieren täglich Kunden — ohne es zu merken.
-        </motion.h2>
+          Kontakt per E-Mail aufnehmen
+        </a>
 
-        <p className="mt-6 text-white/60 max-w-3xl mx-auto">
-          Anrufe werden verpasst. Nachrichten bleiben unbeantwortet.
-          Termine müssen manuell eingetragen werden. Immer die gleichen Fragen.
-        </p>
-
-        <p className="mt-6 text-white/80 text-xl font-semibold">
-          Ihr Chatbot übernimmt das für Sie — sofort und rund um die Uhr.
-        </p>
-      </div>
+        <a
+          href="#demo"
+          className="px-8 py-4 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl text-lg font-semibold text-white transition"
+        >
+          Mehr über den Chatbot erfahren
+        </a>
+      </motion.div>
     </section>
   );
 }

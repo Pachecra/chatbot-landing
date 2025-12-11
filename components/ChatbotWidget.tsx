@@ -1,143 +1,246 @@
 "use client";
-import { useState, useRef, useEffect } from "react";
 
-export default function ChatbotWidget() {
-  const [open, setOpen] = useState(false);
-  const [messages, setMessages] = useState([
-    { from: "bot", text: "Hi! Ich bin dein AI-Bot 🤖 — womit kann ich dir helfen?" }
-  ]);
-  const [input, setInput] = useState("");
+import { useEffect, useRef, useState, KeyboardEvent, FormEvent } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { FaRobot, FaPaperPlane } from "react-icons/fa";
 
-  const chatEndRef = useRef<HTMLDivElement | null>(null);
+type Sender = "bot" | "user";
 
-  // Auto-Scroll
-  useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+interface ChatMessage {
+  id: number;
+  sender: Sender;
+  text: string;
+}
 
-  // Beispiel-Prompts + passende Antworten
-  const quickPrompts = [
-    {
-      q: "Was kostet euer Service?",
-      a: "Unsere Preise sind flexibel und abhängig von deinem Bedarf. Ich helfe dir gerne, das passende Paket zu finden."
-    },
-    {
-      q: "Welches Angebot passt am besten zu mir?",
-      a: "Ich empfehle je nach Zielsetzung verschiedene Optionen. Wenn du willst, mache ich dir einen Vorschlag."
-    },
-    {
-      q: "Wie kann ich einen Termin vereinbaren?",
-      a: "Terminvereinbarungen gehen schnell. Ich kann dich direkt durch den Buchungsprozess führen."
-    },
-    {
-      q: "Wie funktioniert euer Ablauf?",
-      a: "Unser Prozess ist einfach: Analyse → Beratung → Umsetzung. Ich erkläre dir gerne jeden Schritt genauer."
-    },
-    {
-      q: "Was unterscheidet euch von anderen?",
-      a: "Wir bieten persönliche Betreuung, klare Kommunikation und echte Resultate. Ich zeige dir gerne mehr."
-    }
-  ];
+/* ---------------------------------------------------------
+   Beispiel-Prompts oben im Chatbot
+--------------------------------------------------------- */
+const SUGGESTED_QUESTIONS: string[] = [
+  "Was kostet euer Service?",
+  "Welches Angebot passt zu meinem Unternehmen?",
+  "Wie sieht eine Zusammenarbeit konkret aus?",
+];
 
-  function sendMessage(text?: string) {
-    const content = text ?? input;
-    if (content.trim() === "") return;
+/* ---------------------------------------------------------
+   Initiale Bot-Begrüßung
+--------------------------------------------------------- */
+const INITIAL_MESSAGES: ChatMessage[] = [
+  {
+    id: 1,
+    sender: "bot",
+    text: "Hi! Ich bin dein AI-Bot 🤖 — womit kann ich dir helfen?",
+  },
+];
 
-    setMessages(prev => [...prev, { from: "user", text: content }]);
-    setInput("");
+/* ---------------------------------------------------------
+   INTELLIGENTE ANTWORTLOGIK
+   → erkennt Schlüsselwörter und antwortet passend
+--------------------------------------------------------- */
+function getBotReply(userMessage: string): string {
+  const msg = userMessage.toLowerCase();
 
-    // passende Antwort finden
-    const match = quickPrompts.find(p => p.q === content);
-
-    setTimeout(() => {
-      setMessages(prev => [
-        ...prev,
-        {
-          from: "bot",
-          text: match
-            ? match.a
-            : "Danke für deine Nachricht! 🤖 Bald antworte ich mit echten KI-Antworten."
-        }
-      ]);
-    }, 500);
+  if (msg.includes("kosten") || msg.includes("preis")) {
+    return "Unsere Chatbots starten ab 400–900 € einmalig und 49–149 € monatlich. Ich erstelle Ihnen gern ein individuelles Angebot basierend auf Ihrem Unternehmen.";
   }
 
-  function handleKeyPress(e: React.KeyboardEvent<HTMLInputElement>) {
-    if (e.key === "Enter") {
+  if (msg.includes("angebot") || msg.includes("unternehmen") || msg.includes("passt")) {
+    return "Das passende Angebot hängt von Ihrem Anfragevolumen und Ihren Zielen ab. Viele Unternehmen starten mit einer kostenlosen Demo und einem Standard-Setup. Möchten Sie eine Demo?";
+  }
+
+  if (msg.includes("zusammenarbeit") || msg.includes("ablauf") || msg.includes("prozess")) {
+    return "Der Ablauf ist einfach: 1) Kurzes Gespräch, 2) Ich baue Ihren Chatbot, 3) Integration auf Ihrer Website, 4) Mehr Kunden & weniger Arbeit für Sie. Alles innerhalb weniger Tage.";
+  }
+
+  if (msg.includes("demo") || msg.includes("kostenlose")) {
+    return "Sehr gerne! Ich erstelle Ihnen innerhalb von 24 Stunden eine kostenlose Demo mit Ihrem Firmennamen und realistischen Beispielantworten.";
+  }
+
+  if (msg.includes("schnell") || msg.includes("zeit") || msg.includes("dauer")) {
+    return "Ein funktionierender Chatbot ist in der Regel innerhalb von 24–48 Stunden einsatzbereit.";
+  }
+
+  if (msg.includes("dsgvo") || msg.includes("daten")) {
+    return "Ja. Alle Chatbots sind vollständig DSGVO-konform. Es werden keine unnötigen Daten gespeichert.";
+  }
+
+  if (msg.includes("kontakt") || msg.includes("email") || msg.includes("mail")) {
+    return "Sie erreichen mich jederzeit unter: service.pachecoai@gmail.com — Ich melde mich schnellstmöglich zurück.";
+  }
+
+  return "Danke für Ihre Nachricht! Ich melde mich persönlich bei Ihnen und zeige Ihnen, wie ein Chatbot in Ihrem Unternehmen aussehen kann. Auf Wunsch erstelle ich Ihnen eine kostenlose Demo.";
+}
+
+/* ---------------------------------------------------------
+   HAUPTKOMPONENTE: ChatbotWidget
+--------------------------------------------------------- */
+export default function ChatbotWidget() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [messages, setMessages] = useState<ChatMessage[]>(INITIAL_MESSAGES);
+  const [input, setInput] = useState("");
+  const [idCounter, setIdCounter] = useState(2);
+
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, isOpen]);
+
+  const toggleOpen = () => setIsOpen((prev) => !prev);
+
+  /* SENDEN VON NACHRICHTEN */
+  const sendMessage = (text?: string) => {
+    const trimmed = (text ?? input).trim();
+    if (!trimmed) return;
+
+    const newUserMessage: ChatMessage = {
+      id: idCounter,
+      sender: "user",
+      text: trimmed,
+    };
+
+    setMessages((prev) => [...prev, newUserMessage]);
+    setIdCounter((prev) => prev + 1);
+    setInput("");
+
+    const botReply = getBotReply(trimmed);
+
+    const botMessage: ChatMessage = {
+      id: idCounter + 1,
+      sender: "bot",
+      text: botReply,
+    };
+
+    setTimeout(() => {
+      setMessages((prev) => [...prev, botMessage]);
+    }, 600);
+
+    setIdCounter((prev) => prev + 2);
+  };
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    sendMessage();
+  };
+
+  const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       sendMessage();
     }
-  }
+  };
 
+  const handleSuggestedClick = (question: string) => {
+    sendMessage(question);
+  };
+
+  /* ---------------------------------------------------------
+     UI
+  --------------------------------------------------------- */
   return (
-    <>
-      {/* Floating Button */}
-      <button
-        onClick={() => setOpen(!open)}
-        className="fixed bottom-6 right-6 bg-blue-600 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-3xl hover:bg-blue-700 transition z-50"
-      >
-        🤖
-      </button>
-
-      {open && (
-        <div className="fixed bottom-24 right-6 w-80 h-96 bg-white shadow-xl rounded-xl border border-gray-200 flex flex-col overflow-hidden z-50">
-
-          {/* Header */}
-          <div className="bg-black text-white p-4 font-semibold flex justify-between items-center">
-            <span>AI Chatbot 🤖</span>
-            <button onClick={() => setOpen(false)} className="text-lg">×</button>
-          </div>
-
-          {/* Quick Prompts */}
-          <div className="flex gap-2 p-2 overflow-x-auto bg-gray-100">
-            {quickPrompts.map((p, i) => (
-              <button
-                key={i}
-                onClick={() => sendMessage(p.q)}
-                className="bg-white text-xs px-3 py-1 rounded-full border shadow-sm whitespace-nowrap hover:bg-blue-50"
-              >
-                {p.q}
-              </button>
-            ))}
-          </div>
-
-          {/* Chat Body */}
-          <div className="flex-1 p-3 overflow-y-auto bg-gray-50 text-sm space-y-2">
-            {messages.map((msg, i) => (
-              <div
-                key={i}
-                className={`p-2 rounded-lg shadow max-w-[80%] ${
-                  msg.from === "bot"
-                    ? "bg-white"
-                    : "bg-blue-600 text-white ml-auto"
-                }`}
-              >
-                {msg.text}
+    <div className="fixed bottom-4 right-4 z-50">
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 16, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 16, scale: 0.95 }}
+            transition={{ duration: 0.2 }}
+            className="mb-3 w-[350px] md:w-[380px] rounded-2xl bg-[#0c0f17] border border-white/10 shadow-[0_18px_45px_rgba(0,0,0,0.7)] overflow-hidden flex flex-col"
+          >
+            {/* HEADER */}
+            <div className="flex items-center justify-between px-4 py-3 bg-white/5 backdrop-blur border-b border-white/10">
+              <div className="flex items-center gap-2">
+                <div className="h-7 w-7 flex items-center justify-center rounded-full bg-blue-600">
+                  <FaRobot className="text-white text-sm" />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-white">AI Chatbot</p>
+                  <p className="text-[11px] text-white/60">
+                    Beantwortet Fragen zu Angebot & Ablauf
+                  </p>
+                </div>
               </div>
-            ))}
-            <div ref={chatEndRef} />
-          </div>
 
-          {/* Input */}
-          <div className="p-3 border-t bg-white flex gap-2">
-            <input
-              type="text"
-              placeholder="Nachricht eingeben…"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={handleKeyPress}
-              className="flex-1 border rounded-lg px-3 py-2 text-sm"
-            />
-            <button
-              onClick={() => sendMessage()}
-              className="bg-blue-600 text-white px-3 rounded-lg"
+              <button
+                onClick={toggleOpen}
+                className="text-xs text-white/60 hover:text-white"
+              >
+                Schließen
+              </button>
+            </div>
+
+            {/* PROMPT-BUTTONS */}
+            <div className="px-4 pt-3 pb-2 border-b border-white/10 bg-[#05070d]">
+              <div className="flex flex-wrap gap-2">
+                {SUGGESTED_QUESTIONS.map((q) => (
+                  <button
+                    key={q}
+                    onClick={() => handleSuggestedClick(q)}
+                    className="text-[11px] md:text-xs px-3 py-1.5 rounded-full border border-white/20 text-white/80 hover:bg-white/10 transition"
+                  >
+                    {q}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* CHAT-BEREICH */}
+            <div className="flex-1 max-h-80 overflow-y-auto px-4 py-3 space-y-3">
+              {messages.map((m) => (
+                <div
+                  key={m.id}
+                  className={`flex ${
+                    m.sender === "user" ? "justify-end" : "justify-start"
+                  }`}
+                >
+                  <div
+                    className={`max-w-[80%] px-3 py-2 rounded-2xl text-sm leading-snug ${
+                      m.sender === "user"
+                        ? "bg-blue-600 text-white rounded-br-sm"
+                        : "bg-white/5 border border-white/10 text-white rounded-bl-sm"
+                    }`}
+                  >
+                    {m.text}
+                  </div>
+                </div>
+              ))}
+              <div ref={messagesEndRef} />
+            </div>
+
+            {/* INPUT */}
+            <form
+              onSubmit={handleSubmit}
+              className="flex items-end gap-2 border-t border-white/10 bg-[#05070d] px-3 py-3"
             >
-              ➤
-            </button>
-          </div>
+              <textarea
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={handleKeyDown}
+                rows={1}
+                placeholder="Nachricht eingeben… (Enter zum Senden)"
+                className="flex-1 resize-none rounded-xl bg-white/5 border border-white/10 px-3 py-2 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              />
 
-        </div>
-      )}
-    </>
+              <button
+                type="submit"
+                disabled={!input.trim()}
+                className="h-9 w-9 flex items-center justify-center rounded-full bg-blue-600 hover:bg-blue-700 transition disabled:opacity-30"
+              >
+                <FaPaperPlane className="text-white text-xs" />
+              </button>
+            </form>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* FLOATING BUTTON */}
+      <button
+        onClick={toggleOpen}
+        className="h-14 w-14 rounded-full flex items-center justify-center bg-blue-600 hover:bg-blue-700 shadow-[0_18px_30px_rgba(0,0,0,0.7)] transition relative"
+      >
+        <FaRobot className="text-white text-2xl" />
+        <span className="absolute -top-1 -right-1 h-3.5 w-3.5 rounded-full bg-emerald-500 border-2 border-[#05070d]" />
+      </button>
+    </div>
   );
 }
