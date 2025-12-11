@@ -14,59 +14,52 @@ interface ChatMessage {
 
 const SUGGESTED_QUESTIONS: string[] = [
   "Was kostet euer Service?",
-  "Welches Angebot passt zu meinem Unternehmen?",
-  "Wie sieht eine Zusammenarbeit konkret aus?",
+  "Wie läuft eine Zusammenarbeit ab?",
+  "Kann ich eine Demo bekommen?",
+  "Wie schnell geht es?",
 ];
 
 const INITIAL_MESSAGES: ChatMessage[] = [
   {
     id: 1,
     sender: "bot",
-    text: "Hi! Ich bin dein AI-Bot 🤖 — womit kann ich dir helfen?",
+    text: "Willkommen! Wir helfen Unternehmen dabei, mehr Kunden zu gewinnen und weniger Zeitaufwand zu haben – wie können wir Ihnen helfen?",
   },
 ];
 
-/* Intelligente Antwortlogik */
 function getBotReply(userMessage: string): string {
   const msg = userMessage.toLowerCase();
 
   if (msg.includes("kosten") || msg.includes("preis")) {
-    return "Unsere Chatbots starten ab 400–900 € einmalig und 49–149 € monatlich. Ich erstelle Ihnen gern ein individuelles Angebot basierend auf Ihrem Unternehmen.";
+    return "Unsere Chatbots starten ab 400–900 € einmalig für Setup + Training und 49–149 € monatlich für Hosting, Updates & Optimierung. Wir beraten Sie gerne, welcher Umfang für Sie sinnvoll ist.";
   }
 
-  if (msg.includes("angebot") || msg.includes("unternehmen") || msg.includes("passt")) {
-    return "Das passende Angebot hängt von Ihrem Anfragevolumen und Ihren Zielen ab. Viele Unternehmen starten mit einer kostenlosen Demo und einem Standard-Setup. Wenn Sie möchten, erstelle ich Ihnen eine Demo, die zu Ihrem Unternehmen passt.";
+  if (msg.includes("demo") || msg.includes("beispiel") || msg.includes("testen")) {
+    return "Sehr gerne! Wir erstellen innerhalb von 24 Stunden eine kostenlose Demo mit Ihrem Firmennamen und 3 Beispiel-Antworten. Schreiben Sie uns einfach kurz Branche + Website.";
   }
 
-  if (msg.includes("zusammenarbeit") || msg.includes("ablauf") || msg.includes("prozess")) {
-    return "Der Ablauf ist einfach: 1) Kurzes Gespräch, 2) Ich baue Ihren Chatbot, 3) Integration auf Ihrer Website, 4) Optimierung und laufender Support. So gewinnen Sie schnell mehr qualifizierte Anfragen.";
+  if (msg.includes("ablauf") || msg.includes("prozess") || msg.includes("zusammenarbeit")) {
+    return "Der Ablauf ist einfach: 1) Kurzes Gespräch, 2) Wir erstellen Ihren Chatbot, 3) Integration auf Ihrer Website, 4) Optimierung + Support. Sie erhalten sofort mehr qualifizierte Anfragen.";
   }
 
-  if (msg.includes("demo") || msg.includes("kostenlose")) {
-    return "Sehr gerne! Ich erstelle Ihnen innerhalb von 24 Stunden eine kostenlose Demo mit Ihrem Firmennamen und realistischen Beispielantworten. Schreiben Sie mir einfach kurz Ihre Branche und ggf. Ihre Website.";
-  }
-
-  if (msg.includes("schnell") || msg.includes("zeit") || msg.includes("dauer")) {
-    return "Ein funktionierender Chatbot ist in der Regel innerhalb von 24–48 Stunden einsatzbereit. Anpassungen und Feinschliff übernehme ich für Sie.";
-  }
-
-  if (msg.includes("dsgvo") || msg.includes("daten")) {
-    return "Ja. Alle Chatbots sind vollständig DSGVO-konform eingerichtet. Es werden nur die Daten verarbeitet, die für Ihre Prozesse nötig sind – alles andere wird nicht gespeichert.";
+  if (msg.includes("schnell") || msg.includes("dauer") || msg.includes("zeit")) {
+    return "Die meisten Chatbots sind innerhalb von 24–48 Stunden einsatzbereit. Feintuning übernehmen wir für Sie.";
   }
 
   if (msg.includes("bild") || msg.includes("foto") || msg.includes("screenshot") || msg.includes("logo")) {
-    return "Danke für den Hinweis auf das Bild! Ich kann Ihr Logo oder Bild sehr gerne in die Demo und den finalen Chatbot einbauen. Schreiben Sie mir kurz Ihren Firmennamen und Ihre Website, dann berücksichtige ich das direkt.";
+    return "Wir können Ihr Logo oder Bilder gerne in Ihre Chatbot-Demo integrieren. Senden Sie uns einfach Ihre Website oder Branche dazu.";
   }
 
-  if (msg.includes("kontakt") || msg.includes("email") || msg.includes("mail")) {
-    return "Sie erreichen mich jederzeit unter: service.pachecoai@gmail.com — ich melde mich schnellstmöglich bei Ihnen zurück.";
+  if (msg.includes("kontakt") || msg.includes("email")) {
+    return "Sie erreichen uns jederzeit unter: service.pachecoai@gmail.com — wir melden uns schnellstmöglich persönlich bei Ihnen.";
   }
 
-  return "Danke für Ihre Nachricht! Ich melde mich persönlich bei Ihnen und zeige Ihnen, wie ein Chatbot in Ihrem Unternehmen aussehen kann. Auf Wunsch erstelle ich Ihnen eine kostenlose Demo.";
+  return "Vielen Dank für Ihre Nachricht! Wenn Sie möchten, erstellen wir Ihnen jetzt sofort eine kostenlose Demo für Ihr Unternehmen.";
 }
 
 export default function ChatbotWidget() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true); // ALWAYS OPEN
+
   const [messages, setMessages] = useState<ChatMessage[]>(INITIAL_MESSAGES);
   const [input, setInput] = useState("");
   const [idCounter, setIdCounter] = useState(2);
@@ -101,9 +94,7 @@ export default function ChatbotWidget() {
       text: botReply,
     };
 
-    setTimeout(() => {
-      setMessages((prev) => [...prev, botMessage]);
-    }, 600);
+    setTimeout(() => setMessages((prev) => [...prev, botMessage]), 600);
 
     setIdCounter((prev) => prev + 2);
   };
@@ -120,10 +111,6 @@ export default function ChatbotWidget() {
     }
   };
 
-  const handleSuggestedClick = (question: string) => {
-    sendMessage(question);
-  };
-
   return (
     <div className="fixed bottom-4 right-4 z-50">
       <AnimatePresence>
@@ -132,7 +119,6 @@ export default function ChatbotWidget() {
             initial={{ opacity: 0, y: 16, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 16, scale: 0.95 }}
-            transition={{ duration: 0.2 }}
             className="mb-3 w-[350px] md:w-[380px] rounded-2xl bg-[#0c0f17] border border-white/10 shadow-[0_18px_45px_rgba(0,0,0,0.7)] overflow-hidden flex flex-col"
           >
             {/* Header */}
@@ -144,7 +130,7 @@ export default function ChatbotWidget() {
                 <div>
                   <p className="text-sm font-semibold text-white">AI Chatbot</p>
                   <p className="text-[11px] text-white/60">
-                    Beantwortet Fragen zu Angebot &amp; Ablauf
+                    Beantwortet Fragen zu Angebot & Ablauf
                   </p>
                 </div>
               </div>
@@ -157,14 +143,14 @@ export default function ChatbotWidget() {
               </button>
             </div>
 
-            {/* Suggested questions */}
+            {/* Suggested Questions */}
             <div className="px-4 pt-3 pb-2 border-b border-white/10 bg-[#05070d]">
               <div className="flex flex-wrap gap-2">
                 {SUGGESTED_QUESTIONS.map((q) => (
                   <button
                     key={q}
-                    onClick={() => handleSuggestedClick(q)}
-                    className="text-[11px] md:text-xs px-3 py-1.5 rounded-full border border-white/20 text-white/80 hover:bg-white/10 transition"
+                    onClick={() => sendMessage(q)}
+                    className="text-[11px] px-3 py-1.5 rounded-full border border-white/20 text-white/80 hover:bg-white/10 transition"
                   >
                     {q}
                   </button>
@@ -172,7 +158,7 @@ export default function ChatbotWidget() {
               </div>
             </div>
 
-            {/* Messages */}
+            {/* Chat */}
             <div className="flex-1 max-h-80 overflow-y-auto px-4 py-3 space-y-3">
               {messages.map((m) => (
                 <div

@@ -2,18 +2,44 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Basis-Theme */
+/* ===== GLOBAL DESIGN SYSTEM ===== */
+
 :root {
   --background: #05070d;
   --foreground: #f9fafb;
+
+  --accent: #2563eb; /* Haupt-Blau */
+  --accent-hover: #1d4ed8;
+  --card-bg: rgba(255, 255, 255, 0.05);
+  --card-border: rgba(255, 255, 255, 0.10);
 }
 
+/* Smooth scrolling on entire page */
 html {
   scroll-behavior: smooth;
 }
 
+/* Body defaults */
 body {
   background-color: var(--background);
   color: var(--foreground);
+  -webkit-font-smoothing: antialiased;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: -0.01em;
+}
+
+/* Section baseline spacing */
+section {
+  scroll-margin-top: 60px;
+}
+
+/* Improve button touch targets */
+button, a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Hide scrollbars inside chatbot (modern look) */
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }
